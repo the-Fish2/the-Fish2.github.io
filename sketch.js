@@ -4,16 +4,8 @@
 //maybe instead matrix multiplication?? to get new points
 //that should be done in python
 
-const tiling = "rhomb"
 const canva_size = 400
-const add_size = 50
-
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
+const lattice = 4
 
 function setup() {
   // put setup code here
@@ -22,65 +14,89 @@ function setup() {
 }
 
 function draw() {
-  // put drawing code here
-  //grid tiling
-  if (tiling == "rect") {
-    toDraw = newPoints(0, 0, 80)
-
-  }
-  else if (tiling == "rhomb") {
-    toDraw = newPoints(25, 0)
-  }
-  else if (tiling == "pgram") {
-    toDraw = newPoints(15, 0)
-  }
-  else {
-    //tiling == square
-    toDraw=newPoints()
-  }
-  drawPoints(toDraw)
-  // if (mouseIsPressed){
-  //   reflection(mouseX, mouseY)
-  // }
+  latticeBase()
+  noLoop()
 }
 
-function newPoints(x=0, y=0, change=50) {
-  const points = []    
-  const init_x = x
-  let p = new Point(x, y)
-  points.push(p)
-  let row = 0
-
-  while (y <= canva_size) {
-    row += 1;
-    while (x <= canva_size) {
-      let p = new Point(x, y)
-      points.push(p)
-      x += change
-    }
-    y += 50
-
-    if (row % 2 == 0) {
-      x = init_x
-    }
-    else {
-      x = 0
-    }
+function latticeBase() {
+  let i = createVector(0, 0)
+  let j = createVector(0, 0)
+  if (lattice == 0) {
+    //oblique
+    i = createVector(50, 0)
+    j = createVector(10, 50)
+  }
+  else if (lattice == 1) {
+    //rect
+    i = createVector(50, 0)
+    j = createVector(0, 30)
+  }
+  else if (lattice == 2) {
+    //sq
+    i = createVector(50, 0)
+    j = createVector(0, 50)
+  }
+  else if (lattice == 3) {
+    //rhombic
+    i = createVector(43.3, -25)
+    j = createVector(0, 50)
+  }
+  else if (lattice == 4) {
+    //hexagonal
+    i = createVector(50, 0)
+    j = createVector(28.9, 50)
+    
   }
 
-  return points
+  grid(i, j)
 }
 
-function drawPoints(points=[]) {
-  for(let i = 0; i < points.length; i++) {
-    stroke('purple')
-    strokeWeight(5)
-    //point(points[i].x, [points[i].y])
-    let x = points[i].x
-    let y = points[i].y
-    triangle(x, y, x+1, y, x, y-1)
-    //changing the minus is the same as reflectioning
+function grid(i, j) {
+  stroke('purple')
+  strokeWeight(5)
+  let i2 = createVector(-100, 100)
+
+  let j2 = createVector(-1 * j.x, -1 * j.y)
+  while (i2.x <= canva_size) {
+
+    console.log(i2.x) 
+
+    while (i2.y <= canva_size) {
+      i2 = i2.add(j)
+      point(i2.x, i2.y)
+    }
+
+    i2 = i2.add(i)
+
+    while (i2.y >= 0) {
+      i2 = i2.add(j2)
+      point(i2.x, i2.y)
+    }
+
+    i2 = i2.add(i)
+
   }
+}
+
+function translate(x=createVector(0,0), a=createVector(50, 0)) {
+  return x.add(a)
+}
+
+function rotate(a=0, p = Math.matrix[0, 0]) {
+  const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
+  return Math.multiply(p, rotateMatri)
+}
+
+function reflect(a=0, p = Math.matrix[0, 0]) {
+  a *= 2;
+  const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
+  return Math.multiply(p, rotateMatri)
+}
+
+function glideRefl(angle, init_vec) {
+  init_vec = reflect(angle, init_vec)
+  a = createVector(Math.sin(angle) * 50, Math.sin(angle) * 50)
+  
 }
 
 //maybe define vector space
