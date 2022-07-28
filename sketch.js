@@ -3,9 +3,10 @@
 //first simulate the reflection, glide reflection, translation, rotation code?
 //maybe instead matrix multiplication?? to get new points
 //that should be done in python
-
 const canva_size = 400
 const lattice = 4
+const num = 3
+const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 
 function setup() {
   // put setup code here
@@ -14,7 +15,8 @@ function setup() {
 }
 
 function draw() {
-  latticeBase()
+  let points = latticeBase()
+  isometries(points)
   noLoop()
 }
 
@@ -48,32 +50,53 @@ function latticeBase() {
     
   }
 
-  grid(i, j)
+  return grid(i, j)
 }
 
 function grid(i, j) {
   stroke('purple')
-  strokeWeight(5)
-  let i2 = createVector(-100, 100)
-
+  strokeWeight(3)
+  let i2 = createVector(-170, 170)
   let j2 = createVector(-1 * j.x, -1 * j.y)
+
+  let points = [[]]
+
   while (i2.x <= canva_size) {
-
-    console.log(i2.x) 
-
+    
     while (i2.y <= canva_size) {
       i2 = i2.add(j)
-      point(i2.x, i2.y)
+      triangle(i2.x, i2.y, i2.x + 1, i2.y, i2.x, i2.y - 1)
+      points.push([i2.x, i2.y])
     }
 
     i2 = i2.add(i)
 
     while (i2.y >= 0) {
       i2 = i2.add(j2)
-      point(i2.x, i2.y)
+      triangle(i2.x, i2.y, i2.x + 1, i2.y, i2.x, i2.y - 1)
+      points.push([i2.x, i2.y])
     }
 
     i2 = i2.add(i)
+  }
+  return points
+}
+
+function isometries(vecs = []) {
+  //num = 0 - do nothing
+  if (num == 1) {
+    let v0 = createVector(-40, 50)
+    for (let i = 0; i < vecs.length; i++) {
+      // let a = 180
+      // let changeV = createVector(vecs[i][0] * sin(a) * cos(a), )
+      // triangle(changeV.x, changeV.y, changeV.x - 1, changeV.y, changeV.x, changeV.y + 1)
+      let changeV = createVector(vecs[i][0], vecs[i][1])
+      changeV.reflect(v0)
+      triangle(changeV.x-4, changeV.y+4, changeV.x - 5, changeV.y+4, changeV.x-4, changeV.y + 5)
+    }
+  }
+
+  if (num == 2) {
 
   }
 }
