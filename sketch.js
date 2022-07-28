@@ -5,7 +5,7 @@
 //that should be done in python
 const canva_size = 750
 const lattice = 2
-const num = 1
+const num = 2
 const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 var base = []
 
@@ -23,13 +23,15 @@ function draw() {
   if (mouseIsPressed) {
     fill(0)
     // point(mouseX, mouseY)
+    let v0 = base[1].copy()
+    v0.sub(base[0])
     if (num == 0) {
       wallpaper0()
     }
     else if (num == 1) {
-      let v0 = base[1].copy()
-      v0.sub(base[0]) 
-      print(v0)
+      wallpaper1(v0)
+    }
+    else if (num == 2) {
       wallpaper1(v0)
     }
   }
@@ -187,11 +189,34 @@ function wallpaper1(v0) {
 }
 
 function isometries2(vecs = [], v0) {
-    let changeV = createVector(vecs[0], vecs[1])
-    point(changeV.x, changeV.y)
-    changeV.reflect(v0)
-    point(changeV.x, changeV.y)
+    if (num == 1) {
+      one(vecs, v0)
+    }
+    else if (num == 2) {
+      two(vecs, v0)
+    }
 }
+
+function one(vecs = [], v0) {
+  let changeV = createVector(vecs[0], vecs[1])
+  point(changeV.x, changeV.y)
+  let v1 = createVector(v0.x/2, 0)
+  changeV.reflect(v1)
+  let v2 = createVector(0, v0.y/2)  
+  changeV.reflect(v2)
+  point(changeV.x+700, changeV.y+700)  
+}
+
+function two(vecs = [], v0) {
+  let changeV = createVector(vecs[0], vecs[1])
+  point(changeV.x, changeV.y)
+  let v1 = createVector(0, v0.y/2)
+  changeV.reflect(v1)
+  print(changeV.x + " " + changeV.y)
+  point(changeV.x, changeV.y+700) 
+}
+
+//3 - reflect across x-ax and then translate by x/2
 
 // function translate(x=createVector(0,0), a=createVector(50, 0)) {
 //   return x.add(a)
