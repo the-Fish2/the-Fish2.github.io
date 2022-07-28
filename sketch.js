@@ -4,20 +4,25 @@
 //maybe instead matrix multiplication?? to get new points
 //that should be done in python
 const canva_size = 400
-const lattice = 4
-const num = 3
+const lattice = 0
+const num = 1
 const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 
 function setup() {
   // put setup code here
   createCanvas(canva_size, canva_size);
   background(250);
+   
+  const points = latticeBase()
+  isometries(points)
 }
 
 function draw() {
-  let points = latticeBase()
-  isometries(points)
-  noLoop()
+  if (mouseIsPressed) {
+    fill(0)
+    point(mouseX, mouseY)
+    isometries([[mouseX, mouseY]])
+  }
 }
 
 function latticeBase() {
@@ -85,13 +90,15 @@ function grid(i, j) {
 function isometries(vecs = []) {
   //num = 0 - do nothing
   if (num == 1) {
+    console.log("hi")
     let v0 = createVector(-40, 50)
     for (let i = 0; i < vecs.length; i++) {
       // let a = 180
       // let changeV = createVector(vecs[i][0] * sin(a) * cos(a), )
       // triangle(changeV.x, changeV.y, changeV.x - 1, changeV.y, changeV.x, changeV.y + 1)
       let changeV = createVector(vecs[i][0], vecs[i][1])
-      changeV.reflect(v0)
+      changeV.reflect(v0) 
+      //point(changeV.x, changeV.y)
       triangle(changeV.x-4, changeV.y+4, changeV.x - 5, changeV.y+4, changeV.x-4, changeV.y + 5)
     }
   }
@@ -101,26 +108,26 @@ function isometries(vecs = []) {
   }
 }
 
-function translate(x=createVector(0,0), a=createVector(50, 0)) {
-  return x.add(a)
-}
+// function translate(x=createVector(0,0), a=createVector(50, 0)) {
+//   return x.add(a)
+// }
 
-function rotate(a=0, p = Math.matrix[0, 0]) {
-  const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
-  return Math.multiply(p, rotateMatri)
-}
+// function rotate(a=0, p = Math.matrix[0, 0]) {
+//   const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
+//   return Math.multiply(p, rotateMatri)
+// }
 
-function reflect(a=0, p = Math.matrix[0, 0]) {
-  a *= 2;
-  const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
-  return Math.multiply(p, rotateMatri)
-}
+// function reflect(a=0, p = Math.matrix[0, 0]) {
+//   a *= 2;
+//   const rotateMatri = Math.matrix([Math.cos(a), -1 * Math.sin(a)], [Math.sin(a), Math.cos(a)])
+//   return Math.multiply(p, rotateMatri)
+// }
 
-function glideRefl(angle, init_vec) {
-  init_vec = reflect(angle, init_vec)
-  a = createVector(Math.sin(angle) * 50, Math.sin(angle) * 50)
+// function glideRefl(angle, init_vec) {
+//   init_vec = reflect(angle, init_vec)
+//   a = createVector(Math.sin(angle) * 50, Math.sin(angle) * 50)
   
-}
+// }
 
 //maybe define vector space
 
