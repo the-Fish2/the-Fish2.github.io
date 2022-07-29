@@ -1,7 +1,9 @@
 const canva_size = 500
 const lat_size = 100
-var pattern = 4
+var pattern = 7
 var vectors = []
+
+//make faster by cutting points already drawn
 
 function setup() {
     createCanvas(canva_size, canva_size)
@@ -23,55 +25,76 @@ function draw() {
 
 function patterned(vec) {
     let points = [vec]
-    let changeV = createVector(vec.x, vec.y)
+    let changeV = createVector(vec.x % 100, vec.y % 100)
+    let changeV2 = createVector(vec.x % 100, vec.y % 100)
+    let v1 = createVector(lat_size/2, 0)
+    let v2 = createVector(0, lat_size/2)  
+    //p1 - nothing
     if (pattern == 1) {
-        let v1 = createVector(lat_size/2, 0)
+        //p2
         changeV.reflect(v1)
-        let v2 = createVector(0, lat_size/2)  
         changeV.reflect(v2)
         points.push(changeV)
     }
     else if (pattern == 2) {
-        let v1 = createVector(lat_size/2, 0)
+        //pm
         changeV.reflect(v1)
         points.push(changeV)
     }
     else if (pattern == 3) {
-        let v1 = createVector(0, lat_size/2)
-        changeV.reflect(v1)
+        //pg
+        changeV.reflect(v2)
         changeV.x += lat_size/2
         points.push(changeV)
     }
     else if (pattern == 4) {
-        let v1 = createVector(lat_size/2, 0)
-        changeV.reflect(v1)
-        points.push(changeV)
+        //cm
+        points.push(createVector(changeV.x - lat_size/2, changeV.y - lat_size/2))
+        changeV.x = (lat_size/2) - changeV.x
+        points.push(createVector(changeV.x, changeV.y))
+        points.push(createVector(changeV.x - lat_size/2, changeV.y - lat_size/2))
     }
+    else if (pattern == 5) {
+        //pmm
+        changeV.reflect(v1)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV2.reflect(v2)
+        points.push(changeV2)
+    }
+    else if (pattern == 6) {
+        //pmg
+        changeV.x = (lat_size/2) - changeV.x
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x+lat_size/2, changeV.y))
+        changeV2.reflect(v2)
+        points.push(createVector(changeV2.x+lat_size/2, changeV2.y))
+    }
+    else if (pattern == 7) {
+        //pgg
+        changeV.x = (lat_size/2) - changeV.x
+        changeV.y = (lat_size/2) - changeV.y
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        changeV.x += lat_size/2
+        changeV2.reflect(v2)
+        changeV2.x += lat_size/2
+        points.push(changeV)
+        points.push(changeV2)
+    }
+    
     return points
 }
 
 
 function duplicate(points) {
-    let alt = 0
-    if (((points[0].y - (points[0].y % lat_size))/lat_size) % 2 == 1) {
-        alt =1
-    }cd 
-    console.log(alt)
     for (let p = 0; p < points.length; p++) {
         let currP = createVector(points[p].x % lat_size, points[p].y % lat_size)
         for (let i = 0; i < canva_size+100; i+= lat_size) {
             for (let j = 0; j < canva_size+100; j+= lat_size) {
-                if (pattern == 4) {
-                    if (i/100 % 2 == 0 && j/100 % 2 == alt) {
-                        point(currP.x + i, currP.y + j)
-                    }
-                    if (i/100 % 2 == 1 && (j/100 % 2) == (alt + 1)) {
-                        point(currP.x + i, currP.y + j)
-                    }
-                }
-                else {
-                    point(currP.x + i, currP.y + j)
-                }
+                point(currP.x + i, currP.y + j)
             }
         }
     }
