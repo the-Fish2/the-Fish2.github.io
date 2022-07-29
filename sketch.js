@@ -1,6 +1,6 @@
 const canva_size = 500
 const lat_size = 100
-var pattern = 7
+var pattern = 10
 var vectors = []
 
 //make faster by cutting points already drawn
@@ -84,9 +84,68 @@ function patterned(vec) {
         points.push(changeV)
         points.push(changeV2)
     }
+    else if (pattern == 8) {
+        //cmm
+        changeV.x = (lat_size/2) - changeV.x
+        changeV.y = (lat_size/2) - changeV.y
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v1)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x, changeV.y))
+
+        changeV2.reflect(v2)
+        points.push(createVector(changeV2.x, changeV2.y))
+        changeV2.reflect(v1)
+        points.push(createVector(changeV2.x, changeV2.y))
+        changeV2.reflect(v2)
+        points.push(createVector(changeV2.x, changeV2.y))
+    }
+    else if (pattern == 9) {
+        //p4
+        changeV.reflect(v2)
+        changeV.reflect(v1)
+        points.push(createVector(changeV.x, changeV.y))
+
+        changeV2.reflect(v2)
+        //coord swap for rot
+        points.push(createVector(changeV2.y, changeV2.x))
+        changeV2.reflect(v2)
+        changeV2.reflect(v1)
+        points.push(createVector(changeV2.y, changeV2.x))
+    }
+    else if (pattern == 10) {
+        //p4m
+        changeV.reflect(v1.add(v2))
+        points.push(createVector(changeV.x, changeV.y))
+
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v1)
+        points.push(createVector(changeV.x, changeV.y))
+        changeV.reflect(v2)
+        points.push(createVector(changeV.x, changeV.y))
+
+        changeV2.reflect(v2)
+        points.push(createVector(changeV2.x, changeV2.y))
+        changeV2.reflect(v1)
+        points.push(createVector(changeV2.x, changeV2.y))
+        changeV2.reflect(v2)
+        points.push(createVector(changeV2.x, changeV2.y))        
+    }
+    else if (pattern == 11) {
+        //p4g
+    }
     
     return points
 }
+
+//strangely outsourcing not working :(
+//first outsource. life = easier.
+// function quad(v1, v2, points, changeV) {
+// }
 
 
 function duplicate(points) {
