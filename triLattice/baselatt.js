@@ -24,9 +24,6 @@ function draw() {
 function patterned(mouseCurr) {
     let points = [mouseCurr]
     let changeVal = (lat_size/2) * sqrt(3)
-    if ((mouseCurr.y/changeVal) % 2 == 0) {
-        mouseCurr.x += lat_size/2
-    }
     let rotPoint = createVector(0, 0)
     let minDist = mouseCurr.x % lat_size
     if (minDist < lat_size/2) {
@@ -42,8 +39,14 @@ function patterned(mouseCurr) {
     else {
         rotPoint.y = mouseCurr.y + (changeVal - mouseCurr.y % changeVal)
     }
+
+    if ((rotPoint.y/changeVal) % 2 == 1) {
+        rotPoint.x += lat_size/2
+    }
+
     stroke('purple')
     point(rotPoint.x, rotPoint.y)
+
     points = rot(rotPoint, 120, mouseCurr, points)
     // let minInd = 1
     // rotPoint = createVector(mouseCurr.x, mouseCurr.y - mouseCurr.y % changeVal)
