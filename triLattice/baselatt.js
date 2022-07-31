@@ -1,6 +1,6 @@
 const canva_size = 500
 const lat_size = 100
-var pattern = 12
+var pattern = 16
 var vectors = []
 
 function setup() {
@@ -43,19 +43,55 @@ function patterned(mouseCurr) {
     if ((rotPoint.y/changeVal) % 2 == 1) {
         rotPoint.x += lat_size/2
     }
-
-    stroke('purple')
-    point(rotPoint.x, rotPoint.y)
-
-    points = rot(rotPoint, 120, mouseCurr, points)
     // let minInd = 1
     // rotPoint = createVector(mouseCurr.x, mouseCurr.y - mouseCurr.y % changeVal)
     // points.push(rotPoint)
     // if (rotPoint)
-    if (pattern == 12) {
-        
+    if (pattern == 13) {
+        //reflect through vert line at closest point
+        let reflVec = createVector(rotPoint.x, 0)
+        let newVec = createVector(points[0].x, points[0].y)
+        newVec = newVec.reflect(reflVec)
+        points.push(newVec)
 
+        let initLeng = points.length
+        for (let i = 0; i < initLeng; i++) {
+            points = rot(rotPoint, 120, points[i], points)
+        }
+    
     }
+    else if (pattern == 14) {
+        let reflVec = createVector(0, rotPoint.y)
+        let newVec = createVector(points[0].x, points[0].y)
+        newVec = newVec.reflect(reflVec)
+        points.push(newVec)
+
+        let initLeng = points.length
+        for (let i = 0; i < initLeng; i++) {
+            points = rot(rotPoint, 120, points[i], points)
+        }
+    
+    }
+    else if (pattern == 15) {
+
+        let initLeng = points.length
+        for (let i = 0; i < initLeng; i++) {
+            points = rot(rotPoint, 60, points[i], points)
+        }
+    
+    }
+    else if (pattern == 16) {
+        let reflVec = createVector(rotPoint.x, 0)
+        let newVec = createVector(points[0].x, points[0].y)
+        newVec = newVec.reflect(reflVec)
+        points.push(newVec)
+
+        let initLeng = points.length
+        for (let i = 0; i < initLeng; i++) {
+            points = rot(rotPoint, 60, points[i], points)
+        }
+    }
+
     return points
 }
 
