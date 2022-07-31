@@ -1,6 +1,6 @@
 const canva_size = 500
 const lat_size = 100
-var pattern = 11
+var pattern = 12
 var vectors = []
 
 function setup() {
@@ -15,10 +15,59 @@ function draw() {
         //issue 1: this is slow
         let mouseCurr = createVector(pmouseX, pmouseY)
         if (pmouseX < canva_size && pmouseY < canva_size && pmouseX > 0 && pmouseY > 0) {
-            //let points = patterned(mouseCurr)
-            duplicate([mouseCurr])
+            let points = patterned(mouseCurr)
+            duplicate(points)
         }
     }
+}
+
+function patterned(mouseCurr) {
+    let points = [mouseCurr]
+    let changeVal = (lat_size/2) * sqrt(3)
+    if ((mouseCurr.y/changeVal) % 2 == 0) {
+        mouseCurr.x += lat_size/2
+    }
+    let rotPoint = createVector(0, 0)
+    let minDist = mouseCurr.x % lat_size
+    if (minDist < lat_size/2) {
+        rotPoint.x = mouseCurr.x - minDist
+    }
+    else {
+        rotPoint.x = mouseCurr.x + (lat_size - mouseCurr.x % lat_size)
+    }
+    minDist = mouseCurr.y % changeVal
+    if (minDist < changeVal/2) {
+        rotPoint.y = minDist - minDist
+    }
+    else {
+        rotPoint.y = mouseCurr.y + (changeVal - mouseCurr.y % changeVal)
+    }
+    stroke('purple')
+    point(rotPoint.x, rotPoint.y)
+    points = rot(rotPoint, 120, mouseCurr, points)
+    // let minInd = 1
+    // rotPoint = createVector(mouseCurr.x, mouseCurr.y - mouseCurr.y % changeVal)
+    // points.push(rotPoint)
+    // if (rotPoint)
+    if (pattern == 12) {
+        
+
+    }
+    return points
+}
+
+function rot(rotPoint, angle, p, points) {
+    let ans = createVector(p.x, p.y)
+    angle = angle * 3.14159263/180
+    for (let i = 0; i < 2 * 3.14159263; i+= angle) {
+        //does it take radians or degs?
+        ans.x = cos(i) * (p.x - rotPoint.x) - sin(i) * (p.y - rotPoint.y) + rotPoint.x
+        ans.y = sin(i) * (p.x - rotPoint.x) + cos(i) * (p.y - rotPoint.y) + rotPoint.y
+        point(ans.x, ans.y)
+        points.push(createVector(ans.x, ans.y))
+    }
+
+    return points
 }
 
 function lattice() {
@@ -49,9 +98,8 @@ function lattice() {
 }
 
 function duplicate(points) {
+    let changeVal = (lat_size/2) * sqrt(3)
     for (let p = 0; p < points.length; p++) {
-
-        let changeVal = (lat_size/2) * sqrt(3)
 
         let row = int(points[p].y/changeVal) % 2
 
