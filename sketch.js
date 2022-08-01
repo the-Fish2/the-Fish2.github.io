@@ -1,6 +1,8 @@
 const canva_size = 900
 const lat_size = 150
 var pattern = 16
+const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
+var currName = groupNames[pattern]
 
 function setup() {
     createCanvas(canva_size, canva_size)
@@ -12,6 +14,7 @@ function setup() {
 
 function draw() {
     document.getElementById("pattern").innerHTML = pattern;
+    document.getElementById("currName").innerHTML = currName;
     if (mouseIsPressed) {
         //issue 1: this is slow
         let mouseCurr = createVector(pmouseX, pmouseY)
@@ -193,6 +196,7 @@ function duplicate(points) {
 function increment() {
     pattern += 1;
     pattern %= 17
+    currName = groupNames[pattern]
     console.log(pattern)
 }
 
