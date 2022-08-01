@@ -11,6 +11,7 @@ function setup() {
 }
 
 function draw() {
+    document.getElementById("pattern").innerHTML = pattern;
     if (mouseIsPressed) {
         //issue 1: this is slow
         let mouseCurr = createVector(pmouseX, pmouseY)
@@ -54,7 +55,13 @@ function patterned(mouseCurr) {
     // rotPoint = createVector(mouseCurr.x, mouseCurr.y - mouseCurr.y % changeVal)
     // points.push(rotPoint)
     // if (rotPoint)
-    if (pattern == 13) {
+    if (pattern == 12) {
+        let initLeng = points.length
+        for (let i = 0; i < initLeng; i++) {
+            points = rot(rotPoint, 120, points[i], points)
+        }
+    }
+    else if (pattern == 13) {
         //reflect through vert line at closest point
         let reflVec = createVector(rotPoint.x, 0)
         let newVec = createVector(points[0].x, points[0].y)
