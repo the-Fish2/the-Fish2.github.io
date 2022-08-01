@@ -7,9 +7,13 @@ var currName = groupNames[pattern]
 function setup() {
     createCanvas(canva_size, canva_size)
     background(250);
-    lattice1()
-    lattice2()
+    // lattice1()
+    // lattice2()
     strokeWeight(3)
+}
+
+function cleared() {
+    background(250)
 }
 
 function draw() {
