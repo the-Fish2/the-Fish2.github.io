@@ -1,6 +1,6 @@
 const canva_size = 900
 const lat_size = 150
-var pattern = 11
+var pattern = 16
 
 function setup() {
     createCanvas(canva_size, canva_size)
