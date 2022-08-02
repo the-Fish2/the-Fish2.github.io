@@ -21,8 +21,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <button onclick="increment()"> Change Pattern </button>
     <button onclick="cleared()">Clear Design </button> 
+
+  
     <p1> Current Pattern: <span id="pattern"></span> </p1>
     <p1> <span id = "currName"></span> </p1>
+
+    <form onchange="changeCol(document.getElementById('chosenCol').value)">
+      <label for="chosenCol"> Select Pen Color </label>
+      <input id="chosenCol" type="color">
+    </form>
+
+    <form onchange="displayLat(document.getElementById('checkbox').checked)"> 
+      <label for="showLat?"> Show Lattice </label>
+      <input id="checkbox" type="checkbox"> 
+    </form>
+    
+    <!-- <script> 
+      function displayLat2(checked) {
+        let currCanvas = document.getElementById('currCanvas')
+        ctx = currCanvas.getContext('2d')
+        ctx.save()
+        let val = displayLat(checked)
+        if (!val) {
+          ctx.restore()
+        }
+      }
+    </script> -->
+    
+    <!-- pop/push/save/restore funcs not working :() -->
+
+
     <script src="sketch.js"></script>
 
   </body>

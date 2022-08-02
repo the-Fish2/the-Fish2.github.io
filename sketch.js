@@ -1,15 +1,15 @@
 const canva_size = 900
-const lat_size = 150
-var pattern = 16
+const lat_size = 200
+var pattern = 11
 const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 var currName = groupNames[pattern]
 
 function setup() {
-    createCanvas(canva_size, canva_size)
+    currCanvas = createCanvas(canva_size, canva_size)
     background(250);
     // lattice1()
     // lattice2()
-    strokeWeight(3)
+    strokeWeight(lat_size/50)
 }
 
 function cleared() {
@@ -19,9 +19,13 @@ function cleared() {
 function draw() {
     document.getElementById("pattern").innerHTML = pattern;
     document.getElementById("currName").innerHTML = currName;
+    // frameRate(100)
     if (mouseIsPressed) {
         //issue 1: this is slow
         let mouseCurr = createVector(pmouseX, pmouseY)
+        // //not super helpful 
+        // mouseCurr.x += noise(mouseCurr.x, mouseCurr.y)
+        // mouseCurr.y += noise(mouseCurr.x, mouseCurr.y)
         if (pmouseX < canva_size && pmouseY < canva_size && pmouseX > 0 && pmouseY > 0) {
             if (pattern < 12) {
                 let points = patterned2(mouseCurr)
@@ -130,9 +134,9 @@ function rot(rotPoint, angle, p, points) {
     return points
 }
 
-function lattice1() {
+function lattice1(coloor) {
     strokeWeight(5)
-    stroke('pink')
+    stroke(coloor)
     let i = 0
     let row = 0
     let j = 0
@@ -142,11 +146,9 @@ function lattice1() {
         while (j <= canva_size) {
             if (row % 2 == 0) {
                 point(j, i)
-                k = createVector(j, i)
             }
             else {
                 point(j-lat_size/2, i)
-                k = createVector(j - lat_size/2, i)
             }
             j += lat_size
         }
@@ -156,12 +158,11 @@ function lattice1() {
     }
 }
 
-function lattice2() {
+function lattice2(coloor) {
     strokeWeight(5)
-    stroke('pink')
+    stroke(coloor)
     for (let i = 0; i < canva_size; i+= 100) {
         for (let j = 0; j < canva_size; j+= 100) {
-            let k = createVector(i, j)
             point(i, j)
         }
     }
@@ -359,6 +360,9 @@ function pushIn(points, changeV) {
 
 
 function duplicate2(points) {
+    //ok so idea: circle of radius 1. create bezier curve between middle point and circle
+    //shade bezier curve with varying opacity
+    //changing bezier curve points https://cubic-bezier.com/#.23,.83,.88,.18
     for (let p = 0; p < points.length; p++) {
         let currP = createVector(points[p].x % lat_size, points[p].y % lat_size)
         for (let i = 0; i <= canva_size; i+= lat_size) {
@@ -369,3 +373,29 @@ function duplicate2(points) {
     }
 }
 
+
+function changeCol(newCol) {
+    console.log(newCol)
+    stroke(newCol)
+}
+
+
+function displayLat(checked) {
+    if (checked) {
+        if (pattern < 12) {
+            lattice2('black')
+        }
+        else {
+            lattice1('black')
+        }
+    }
+    else {
+        if (pattern < 12) {
+            lattice2(250)
+        }
+        else {
+            lattice1(250)
+        }
+    }
+    
+}
