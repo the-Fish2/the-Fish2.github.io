@@ -1,18 +1,24 @@
-var canva_size = window.innerWidth;
-console.log(canva_size)
+var canva_size_x = window.innerWidth;
+var canva_size_y = window.innerHeight;
+//i think canvas is being compressed? cause lattices are smushed
 const lat_size = 200
 var pattern = 11
 const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 var currName = groupNames[pattern]
 
 function setup() {
-    createCanvas(canva_size, canva_size)
-    background(250);
+    canva = createCanvas(canva_size_x, canva_size_y)
+    background(230);
     strokeWeight(lat_size/50)
 }
 
+function windowResized() {
+    canva_size_x = window.innerWidth
+    canva_size_y = window.innerHeight
+  }
+
 function cleared() {
-    background(250)
+    background(230)
 }
 
 function draw() {
@@ -25,7 +31,7 @@ function draw() {
         // //not super helpful 
         // mouseCurr.x += noise(mouseCurr.x, mouseCurr.y)
         // mouseCurr.y += noise(mouseCurr.x, mouseCurr.y)
-        if (pmouseX < canva_size && pmouseY < canva_size && pmouseX > 0 && pmouseY > 0) {
+        if (pmouseX < canva_size_x && pmouseY < canva_size_y && pmouseX > 0 && pmouseY > 0) {
             if (pattern < 12) {
                 let points = patterned2(mouseCurr)
                 duplicate2(points)
@@ -141,8 +147,8 @@ function lattice1(coloor) {
     let j = 0
     let k = 0
 
-    while (i <= canva_size) {
-        while (j <= canva_size) {
+    while (i <= canva_size_y) {
+        while (j <= canva_size_x) {
             if (row % 2 == 0) {
                 point(j, i)
             }
@@ -160,8 +166,8 @@ function lattice1(coloor) {
 function lattice2(coloor) {
     strokeWeight(5)
     stroke(coloor)
-    for (let i = 0; i < canva_size; i+= 100) {
-        for (let j = 0; j < canva_size; j+= 100) {
+    for (let i = 0; i < canva_size_x; i+= 100) {
+        for (let j = 0; j < canva_size_y; j+= 100) {
             point(i, j)
         }
     }
@@ -183,9 +189,9 @@ function duplicate(points) {
         point(currP.x, currP.y)
 
         //nums 8 and all reliant on canva size
-        while (currP.y <= canva_size+ 20 * changeVal) {
+        while (currP.y <= canva_size_y + 20 * changeVal) {
 
-            while (currP.x <= canva_size+2*lat_size) {
+            while (currP.x <= canva_size_x +2*lat_size) {
                 point(currP.x, currP.y)
                 currP.x += lat_size
             }
@@ -364,8 +370,8 @@ function duplicate2(points) {
     //changing bezier curve points https://cubic-bezier.com/#.23,.83,.88,.18
     for (let p = 0; p < points.length; p++) {
         let currP = createVector(points[p].x % lat_size, points[p].y % lat_size)
-        for (let i = 0; i <= canva_size; i+= lat_size) {
-            for (let j = 0; j <= canva_size; j+= lat_size) {
+        for (let i = 0; i <= canva_size_x; i+= lat_size) {
+            for (let j = 0; j <= canva_size_y; j+= lat_size) {
                 point(currP.x + i, currP.y + j)
             }
         }
@@ -399,7 +405,3 @@ function displayLat(checked) {
     
 }
 
-
-function changeCanvaSize(newCanvaSize) {
-    canva_size = newCanvaSize
-}

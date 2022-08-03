@@ -1,7 +1,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #FAFAFA;
+  background-color: #e1e1e1;
+  overflow: hidden;
 }
 
 h1 {
@@ -10,8 +11,6 @@ h1 {
 
 canvas {
   display: block;
-  height:100vh;
-  max-width: 100vh;
 }
 
 .center {
@@ -19,6 +18,9 @@ canvas {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, serif
 }
 
+.p, label {
+  color: #e21c1c8e;
+}
 
 form {
   /* display: inline; */
