@@ -1,14 +1,13 @@
-const canva_size = 900
+var canva_size = window.innerWidth;
+console.log(canva_size)
 const lat_size = 200
 var pattern = 11
 const groupNames = ["p1", "p2", "pm", "pg", "cm", "pmm", "pmg", "pgg", "cmm", "p4", "p4m", "p4g", "p3", "p3m1", "p31m", "p6", "p6m"]
 var currName = groupNames[pattern]
 
 function setup() {
-    currCanvas = createCanvas(canva_size, canva_size)
+    createCanvas(canva_size, canva_size)
     background(250);
-    // lattice1()
-    // lattice2()
     strokeWeight(lat_size/50)
 }
 
@@ -19,7 +18,7 @@ function cleared() {
 function draw() {
     document.getElementById("pattern").innerHTML = pattern;
     document.getElementById("currName").innerHTML = currName;
-    // frameRate(100)
+    frameRate(500)
     if (mouseIsPressed) {
         //issue 1: this is slow
         let mouseCurr = createVector(pmouseX, pmouseY)
@@ -177,14 +176,14 @@ function duplicate(points) {
 
         let currP = createVector(p.x, p.y)
 
-        currP.x = (points[p].x % lat_size) - 8 * lat_size + row * lat_size/2
+        currP.x = (points[p].x % lat_size) - 10 * lat_size + row * lat_size/2
 
         currP.y = points[p].y % (changeVal) - 2 * changeVal
         
         point(currP.x, currP.y)
 
         //nums 8 and all reliant on canva size
-        while (currP.y <= canva_size+ 8 * changeVal) {
+        while (currP.y <= canva_size+ 20 * changeVal) {
 
             while (currP.x <= canva_size+2*lat_size) {
                 point(currP.x, currP.y)
@@ -193,7 +192,7 @@ function duplicate(points) {
 
             currP.y += changeVal
             row += 1
-            currP.x = points[p].x % lat_size - 8 * lat_size + row * lat_size/2
+            currP.x = points[p].x % lat_size - 10 * lat_size + row * lat_size/2
         }
     }
 }
@@ -398,4 +397,9 @@ function displayLat(checked) {
         }
     }
     
+}
+
+
+function changeCanvaSize(newCanvaSize) {
+    canva_size = newCanvaSize
 }

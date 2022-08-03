@@ -1,8 +1,26 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color: #FAFAFA;
+}
+
+h1 {
+  color:#a60505;
 }
 
 canvas {
   display: block;
+  height:100vh;
+  max-width: 100vh;
 }
+
+.center {
+  text-align: center;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, serif
+}
+
+
+form {
+  /* display: inline; */
+}
+
